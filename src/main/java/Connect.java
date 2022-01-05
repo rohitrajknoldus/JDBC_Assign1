@@ -1,9 +1,15 @@
-import java.sql.*;
-class Connect
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+class JDBCConnection
 {
+/*
+Main Method
+ */
     public static void main(String[] args) {
-        try
-        {
+        try {
             final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
             final String DB_URL = "jdbc:mysql://localhost:3306/Raj";
             final String USER = "root";
@@ -19,10 +25,10 @@ class Connect
             Statement stmt2=conn.createStatement();
             ResultSet result =stmt2.executeQuery("select pname from Product where pid=(select pid from Cart where qty=(select Max(qty) from Cart));");
             while(result.next())
-                System.out.println("Maximum sold = "+result.getString(1));
+                System.out.println("Maximum sold = "+ result.getString(1));
             System.out.println("List all the Products which are not yet sold.\n");
-            Statement stmt3=conn.createStatement();
-            ResultSet r3=stmt3.executeQuery("select pname from Product where pid NOT IN(Select pid from Cart)");
+            Statement stmt3 = conn.createStatement();
+            ResultSet r3 = stmt3.executeQuery("select pname from Product where pid NOT IN(Select pid from Cart)");
             while(r3.next())
                 System.out.println(r3.getString(1));
 
